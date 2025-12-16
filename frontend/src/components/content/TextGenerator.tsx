@@ -60,7 +60,7 @@ export const TextGenerator: React.FC<TextGeneratorProps> = ({ workspaceId, onTex
             <label className="block text-sm font-medium mb-2">Content Type</label>
             <select
               value={formData.type}
-              onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, type: e.target.value as TextGenerationRequest['type'] })}
               className="w-full p-2 border rounded-md"
             >
               <option value="headline">Headlines</option>
@@ -86,7 +86,7 @@ export const TextGenerator: React.FC<TextGeneratorProps> = ({ workspaceId, onTex
             <label className="block text-sm font-medium mb-2">Tone</label>
             <select
               value={formData.tone}
-              onChange={(e) => setFormData({ ...formData, tone: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, tone: e.target.value as TextGenerationRequest['tone'] })}
               className="w-full p-2 border rounded-md"
             >
               <option value="professional">Professional</option>

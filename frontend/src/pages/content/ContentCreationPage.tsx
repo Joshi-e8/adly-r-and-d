@@ -16,7 +16,7 @@ export const ContentCreationPage: React.FC<ContentCreationPageProps> = ({ worksp
   const { user, logout } = useAuthStore();
 
   const handleContentGenerated = (jobId: string) => {
-    // Switch to library tab to show the generation progress
+    void jobId;
     setActiveTab('library');
   };
 

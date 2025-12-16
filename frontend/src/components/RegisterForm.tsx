@@ -40,8 +40,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     try {
       await registerUser(data as RegisterRequest);
       onSuccess?.();
-    } catch (error) {
-      // Error handling is done in the store
+    } catch {
+      void 0;
     }
   };
 

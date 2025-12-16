@@ -36,8 +36,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     try {
       await login(data as LoginRequest);
       onSuccess?.();
-    } catch (error: any) {
-      if (error.response?.data?.detail?.includes('2FA token required')) {
+    } catch (error: unknown) {
+      const detail = (typeof error === 'object' && error && 'response' in error)
+        ? (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail
+        : undefined;
+      if (typeof detail === 'string' && detail.includes('2FA token required')) {
         setRequires2FA(true);
         setError('otp_token', { message: '2FA token is required' });
       }

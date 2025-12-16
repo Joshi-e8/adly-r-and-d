@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ContentAPI } from '../../services/content/contentApi';
 import { ContentTemplate, Avatar, Voice, VideoGenerationRequest } from '../../types/content';
 
@@ -30,38 +30,38 @@ export const VideoCreator: React.FC<VideoCreatorProps> = ({ workspaceId, onVideo
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [voices, setVoices] = useState<Voice[]>([]);
 
-  useEffect(() => {
-    loadTemplates();
-    loadAvatars();
-    loadVoices();
-  }, [language]);
-
-  const loadTemplates = async () => {
+  const loadTemplates = useCallback(async () => {
     try {
       const data = await contentApi.getPublicTemplates();
       setTemplates(data);
     } catch (error) {
       console.error('Failed to load templates:', error);
     }
-  };
+  }, [contentApi]);
 
-  const loadAvatars = async () => {
+  const loadAvatars = useCallback(async () => {
     try {
       const data = await contentApi.getAvatars(language);
       setAvatars(data);
     } catch (error) {
       console.error('Failed to load avatars:', error);
     }
-  };
+  }, [contentApi, language]);
 
-  const loadVoices = async () => {
+  const loadVoices = useCallback(async () => {
     try {
       const data = await contentApi.getVoices(language);
       setVoices(data);
     } catch (error) {
       console.error('Failed to load voices:', error);
     }
-  };
+  }, [contentApi, language]);
+
+  useEffect(() => {
+    loadTemplates();
+    loadAvatars();
+    loadVoices();
+  }, [loadTemplates, loadAvatars, loadVoices]);
 
   const handleGenerate = async () => {
     if (!productUrl && !script) {
@@ -183,7 +183,7 @@ export const VideoCreator: React.FC<VideoCreatorProps> = ({ workspaceId, onVideo
               {template.industry} • {template.theme}
             </p>
             <div className="mt-2 text-xs text-gray-400">
-              Duration: {template.template_data.duration}s
+              Duration: {String((template.template_data as { duration?: number }).duration ?? '')}s
             </div>
           </div>
         ))}

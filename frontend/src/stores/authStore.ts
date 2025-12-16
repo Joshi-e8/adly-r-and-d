@@ -20,7 +20,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       isAuthenticated: false,
       isLoading: false,
@@ -41,10 +41,12 @@ export const useAuthStore = create<AuthState>()(
           });
           
           toast.success('Login successful!');
-        } catch (error: any) {
+        } catch (error: unknown) {
           set({ isLoading: false });
-          const message = error.response?.data?.detail || 'Login failed';
-          toast.error(message);
+          const detail = (typeof error === 'object' && error && 'response' in error)
+            ? (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail
+            : undefined;
+          toast.error(typeof detail === 'string' ? detail : 'Login failed');
           throw error;
         }
       },
@@ -55,10 +57,12 @@ export const useAuthStore = create<AuthState>()(
           await authAPI.register(data);
           set({ isLoading: false });
           toast.success('Registration successful! Please check your email for verification.');
-        } catch (error: any) {
+        } catch (error: unknown) {
           set({ isLoading: false });
-          const message = error.response?.data?.detail || 'Registration failed';
-          toast.error(message);
+          const detail = (typeof error === 'object' && error && 'response' in error)
+            ? (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail
+            : undefined;
+          toast.error(typeof detail === 'string' ? detail : 'Registration failed');
           throw error;
         }
       },
@@ -79,10 +83,12 @@ export const useAuthStore = create<AuthState>()(
           await authAPI.verifyEmail({ email, token });
           set({ isLoading: false });
           toast.success('Email verified successfully!');
-        } catch (error: any) {
+        } catch (error: unknown) {
           set({ isLoading: false });
-          const message = error.response?.data?.detail || 'Verification failed';
-          toast.error(message);
+          const detail = (typeof error === 'object' && error && 'response' in error)
+            ? (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail
+            : undefined;
+          toast.error(typeof detail === 'string' ? detail : 'Verification failed');
           throw error;
         }
       },
@@ -94,7 +100,7 @@ export const useAuthStore = create<AuthState>()(
             user: response.data, 
             isAuthenticated: true 
           });
-        } catch (error) {
+        } catch {
           set({ 
             user: null, 
             isAuthenticated: false 
@@ -113,10 +119,12 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false 
           });
           toast.success('Profile updated successfully!');
-        } catch (error: any) {
+        } catch (error: unknown) {
           set({ isLoading: false });
-          const message = error.response?.data?.detail || 'Update failed';
-          toast.error(message);
+          const detail = (typeof error === 'object' && error && 'response' in error)
+            ? (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail
+            : undefined;
+          toast.error(typeof detail === 'string' ? detail : 'Update failed');
           throw error;
         }
       },

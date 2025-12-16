@@ -82,10 +82,10 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ workspaceId, onI
             <label className="block text-sm font-medium mb-2">Style</label>
             <select
               value={formData.style}
-              onChange={(e) => setFormData({ ...formData, style: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, style: e.target.value as ImageGenerationRequest['style'] })}
               className="w-full p-2 border rounded-md"
             >
-              {Object.entries(styleExamples).map(([style, description]) => (
+              {Object.keys(styleExamples).map((style) => (
                 <option key={style} value={style}>
                   {style.charAt(0).toUpperCase() + style.slice(1)}
                 </option>
@@ -100,7 +100,7 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ workspaceId, onI
             <label className="block text-sm font-medium mb-2">Dimensions</label>
             <select
               value={formData.dimensions}
-              onChange={(e) => setFormData({ ...formData, dimensions: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, dimensions: e.target.value as ImageGenerationRequest['dimensions'] })}
               className="w-full p-2 border rounded-md"
             >
               <option value="1024x1024">Square (1024x1024) - Social Media Posts</option>

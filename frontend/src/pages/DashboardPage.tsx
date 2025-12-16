@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/authStore';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { workspaceAPI } from '@/services/workspaces/workspaceApi';
 
 export const DashboardPage: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
   
-  // Mock workspace ID - in real app this would come from user's workspaces
-  const workspaceId = 'demo-workspace-123';
+  const [workspaceId, setWorkspaceId] = useState<string>('');
+  useEffect(() => {
+    (async () => {
+      try {
+        const ws = await workspaceAPI.list();
+        if (ws && ws.length > 0) setWorkspaceId(ws[0].id);
+      } catch {
+        console.error('Failed to load workspaces');
+      }
+    })();
+  }, []);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -68,13 +78,25 @@ export const DashboardPage: React.FC = () => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => navigate(`/content/${workspaceId}`)}
+                onClick={() => navigate(workspaceId ? `/content/${workspaceId}` : '/ad-accounts')}
                 className="btn-primary"
               >
                 🎥 Create AI Video Ads
               </button>
               <button className="btn-secondary">
                 🏪 Connect Your Store
+              </button>
+              <button 
+                onClick={() => navigate('/workspaces')}
+                className="btn-secondary"
+              >
+                🗂️ Manage Workspaces
+              </button>
+              <button 
+                onClick={() => navigate(workspaceId ? `/ad-accounts/${workspaceId}` : '/ad-accounts')}
+                className="btn-secondary"
+              >
+                📢 Connect Ad Accounts
               </button>
             </div>
           </div>

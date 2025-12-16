@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ContentAPI } from '../../services/content/contentApi';
 import { ContentAsset, GenerationJob } from '../../types/content';
 
@@ -14,11 +14,7 @@ export const ContentLibrary: React.FC<ContentLibraryProps> = ({ workspaceId }) =
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'image' | 'video' | 'text' | 'audio'>('all');
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const [assetsData, jobsData] = await Promise.all([
@@ -32,7 +28,11 @@ export const ContentLibrary: React.FC<ContentLibraryProps> = ({ workspaceId }) =
     } finally {
       setLoading(false);
     }
-  };
+  }, [contentApi]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const filteredAssets = assets.filter(asset => 
     filter === 'all' || asset.type === filter
@@ -78,10 +78,10 @@ export const ContentLibrary: React.FC<ContentLibraryProps> = ({ workspaceId }) =
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex space-x-2">
-          {['all', 'video', 'image', 'text', 'audio'].map((type) => (
+          {(['all', 'video', 'image', 'text', 'audio'] as Array<'all' | 'video' | 'image' | 'text' | 'audio'>).map((type) => (
             <button
               key={type}
-              onClick={() => setFilter(type as any)}
+              onClick={() => setFilter(type)}
               className={`px-3 py-1 rounded-full text-sm font-medium ${
                 filter === type
                   ? 'bg-blue-600 text-white'

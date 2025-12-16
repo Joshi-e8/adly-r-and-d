@@ -6,7 +6,7 @@ export interface ContentAsset {
   file_url?: string;
   file_size?: number;
   mime_type?: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   generated_by?: string;
   generation_prompt?: string;
   language: 'ar' | 'en';
@@ -21,7 +21,7 @@ export interface ContentTemplate {
   type: 'video' | 'image' | 'text';
   industry: string;
   theme: string;
-  template_data: Record<string, any>;
+  template_data: Record<string, unknown>;
   is_public: boolean;
   created_at: string;
   updated_at: string;
@@ -34,7 +34,7 @@ export interface GenerationJob {
   type: 'text' | 'image' | 'video' | 'voice' | 'script';
   provider: string;
   prompt: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   result_asset?: ContentAsset;
   error_message?: string;
@@ -50,8 +50,8 @@ export interface VideoProject {
   product_url?: string;
   script?: string;
   template?: ContentTemplate;
-  avatar_settings: Record<string, any>;
-  brand_settings: Record<string, any>;
+  avatar_settings: Record<string, unknown>;
+  brand_settings: Record<string, unknown>;
   language: 'ar' | 'en';
   status: 'draft' | 'generating' | 'completed' | 'failed';
   generated_video?: ContentAsset;
@@ -72,7 +72,7 @@ export interface ProductAnalysis {
   features: string[];
   category?: string;
   brand?: string;
-  analysis_data: Record<string, any>;
+  analysis_data: Record<string, unknown>;
   created_at: string;
 }
 
@@ -80,8 +80,8 @@ export interface VideoGenerationRequest {
   product_url?: string;
   script?: string;
   template_id?: string;
-  avatar_settings?: Record<string, any>;
-  brand_settings?: Record<string, any>;
+  avatar_settings?: Record<string, unknown>;
+  brand_settings?: Record<string, unknown>;
   language?: 'ar' | 'en';
   variations_count?: number;
 }
