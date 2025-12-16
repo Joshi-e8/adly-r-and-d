@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "apps.authentication",
     "apps.workspaces",
     "apps.content_creation",
+    "apps.ad_platforms",
 ]
 
 MIDDLEWARE = [
@@ -186,7 +187,7 @@ SIMPLE_JWT = {
 }
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000').split(',')
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173,http://localhost:3000').split(',')
 CORS_ALLOW_CREDENTIALS = True
 
 # OAuth2 Configuration
@@ -236,3 +237,15 @@ CONTENT_GENERATION = {
     'DEFAULT_LANGUAGE': 'ar',
     'ENABLE_CULTURAL_CONTEXT': True,
 }
+
+# Frontend URL
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173')
+
+# OAuth Client Configuration
+TWITTER_CONSUMER_KEY = config('TWITTER_CONSUMER_KEY', default='') or config('TWITTER_API_KEY', default='')
+TWITTER_CONSUMER_SECRET = config('TWITTER_CONSUMER_SECRET', default='') or config('TWITTER_API_SECRET', default='')
+TWITTER_CALLBACK_BASE_URL = config('TWITTER_CALLBACK_BASE_URL', default='http://localhost:8000/api/v1/ad-accounts/oauth/twitter/callback/')
+
+SNAPCHAT_CLIENT_ID = config('SNAPCHAT_CLIENT_ID', default='')
+SNAPCHAT_CLIENT_SECRET = config('SNAPCHAT_CLIENT_SECRET', default='')
+SNAPCHAT_REDIRECT_BASE_URL = config('SNAPCHAT_REDIRECT_BASE_URL', default='http://localhost:8000/api/v1/ad-accounts/oauth/snapchat/callback/')
