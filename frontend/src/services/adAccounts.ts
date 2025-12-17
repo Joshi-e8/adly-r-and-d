@@ -22,4 +22,13 @@ export const adAccountsAPI = {
   startSnapchatOAuth: (workspaceId: string) => api
     .get<{ authorization_url: string }>(`/workspaces/${workspaceId}/ad-accounts/v1/ad-accounts/snapchat/start/`)
     .then(r => r.data.authorization_url),
+  startMetaOAuth: (workspaceId: string) => api
+    .get<{ authorization_url: string }>(`/workspaces/${workspaceId}/ad-accounts/v1/ad-accounts/meta/start/`)
+    .then(r => r.data.authorization_url),
+  startLinkedInOAuth: (workspaceId: string) => api
+    .get<{ authorization_url: string }>(`/workspaces/${workspaceId}/ad-accounts/v1/ad-accounts/linkedin/start/`)
+    .then(r => r.data.authorization_url),
+  startYouTubeOAuth: (workspaceId: string) => api
+    .get<{ authorization_url: string }>(`/workspaces/${workspaceId}/ad-accounts/v1/ad-accounts/youtube/start/`)
+    .then(r => r.data.authorization_url),
 };

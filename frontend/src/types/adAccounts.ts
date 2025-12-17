@@ -1,4 +1,4 @@
-export type AdProvider = 'twitter' | 'snapchat';
+export type AdProvider = 'twitter' | 'snapchat' | 'meta' | 'linkedin' | 'youtube';
 
 export interface AdAccount {
   id: string;

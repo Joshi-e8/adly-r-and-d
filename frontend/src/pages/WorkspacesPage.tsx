@@ -64,7 +64,7 @@ export const WorkspacesPage: React.FC = () => {
             <div className="card">
               <h3 className="text-lg font-semibold mb-4">Create Workspace</h3>
               <form onSubmit={createWorkspace} className="space-y-3">
-                <input className="input" placeholder="Workspace Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <input className="input-field" placeholder="Workspace Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <button type="submit" className="btn-primary w-full" disabled={creating}>{creating ? 'Creating…' : 'Create'}</button>
               </form>
             </div>

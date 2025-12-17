@@ -21,7 +21,7 @@ class AdAccountSerializer(serializers.ModelSerializer):
 
 
 class AdAccountConnectSerializer(serializers.Serializer):
-    provider = serializers.ChoiceField(choices=[("twitter", "Twitter"), ("snapchat", "Snapchat")])
+    provider = serializers.ChoiceField(choices=[("twitter", "Twitter"), ("snapchat", "Snapchat"), ("meta", "Meta"), ("linkedin", "LinkedIn"), ("youtube", "YouTube")])
     account_name = serializers.CharField(required=False, allow_blank=True)
     external_account_id = serializers.CharField(required=False, allow_blank=True)
     access_token = serializers.CharField(required=False, allow_blank=True)

@@ -9,6 +9,8 @@ class AdAccount(models.Model):
         ("twitter", "Twitter"),
         ("snapchat", "Snapchat"),
         ("meta", "Meta"),
+        ("linkedin", "LinkedIn"),
+        ("youtube", "YouTube"),
         ("tiktok", "TikTok"),
     ]
 

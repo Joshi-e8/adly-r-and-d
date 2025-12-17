@@ -8,6 +8,7 @@ import { RegisterPage } from '@/pages/RegisterPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { ContentCreationPage } from '@/pages/content/ContentCreationPage';
 import { AdAccountsPage } from '@/pages/AdAccountsPage';
+import { MetaAdsUploadPage } from '@/pages/MetaAdsUploadPage';
 import { WorkspacesPage } from '@/pages/WorkspacesPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
@@ -46,6 +47,7 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/content/:workspaceId" element={<ProtectedRoute><ContentCreationWrapper /></ProtectedRoute>} />
             <Route path="/ad-accounts/:workspaceId?" element={<ProtectedRoute><AdAccountsPage /></ProtectedRoute>} />
+            <Route path="/meta-ads/:workspaceId?" element={<ProtectedRoute><MetaAdsUploadPage /></ProtectedRoute>} />
             <Route path="/workspaces" element={<ProtectedRoute><WorkspacesPage /></ProtectedRoute>} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Routes>

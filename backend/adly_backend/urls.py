@@ -20,7 +20,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import JsonResponse
-from apps.ad_platforms.v1.views.oauth import twitter_callback, snapchat_callback
+from apps.ad_platforms.v1.views.oauth import twitter_callback, snapchat_callback, meta_callback, linkedin_callback, youtube_callback
 
 def health_check(request):
     return JsonResponse({'status': 'healthy', 'message': 'ADLY API is running'})
@@ -33,6 +33,9 @@ urlpatterns = [
     path("api/v1/workspaces/<uuid:workspace_id>/ad-accounts/", include("apps.ad_platforms.urls")),
     path("api/v1/ad-accounts/oauth/twitter/callback/", twitter_callback, name="twitter_oauth_callback"),
     path("api/v1/ad-accounts/oauth/snapchat/callback/", snapchat_callback, name="snapchat_oauth_callback"),
+    path("api/v1/ad-accounts/oauth/meta/callback/", meta_callback, name="meta_oauth_callback"),
+    path("api/v1/ad-accounts/oauth/linkedin/callback/", linkedin_callback, name="linkedin_oauth_callback"),
+    path("api/v1/ad-accounts/oauth/youtube/callback/", youtube_callback, name="youtube_oauth_callback"),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("health/", health_check, name="health_check"),
 ]
