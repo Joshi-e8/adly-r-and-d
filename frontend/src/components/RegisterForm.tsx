@@ -20,7 +20,7 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 interface RegisterFormProps {
-  onSuccess?: () => void;
+  onSuccess?: (email: string, userId?: string, otp?: string) => void;
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
@@ -38,8 +38,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await registerUser(data as RegisterRequest);
-      onSuccess?.();
+      const result = await registerUser(data as RegisterRequest);
+      onSuccess?.(data.email, result?.userId, result?.otp);
     } catch {
       void 0;
     }

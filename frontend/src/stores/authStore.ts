@@ -11,9 +11,9 @@ interface AuthState {
   
   // Actions
   login: (data: LoginRequest) => Promise<void>;
-  register: (data: RegisterRequest) => Promise<void>;
+  register: (data: RegisterRequest) => Promise<{ userId?: string; otp?: string } | undefined>;
   logout: () => void;
-  verifyEmail: (email: string, token: string) => Promise<void>;
+  verifyEmail: (payload: { email?: string; user_id?: string; token: string }) => Promise<void>;
   fetchProfile: () => Promise<void>;
   updateProfile: (data: Partial<User>) => Promise<void>;
 }
@@ -54,9 +54,10 @@ export const useAuthStore = create<AuthState>()(
       register: async (data: RegisterRequest) => {
         set({ isLoading: true });
         try {
-          await authAPI.register(data);
+          const response = await authAPI.register(data);
           set({ isLoading: false });
           toast.success('Registration successful! Please check your email for verification.');
+          return { userId: response.data?.user_id, otp: response.data?.otp };
         } catch (error: unknown) {
           set({ isLoading: false });
           const detail = (typeof error === 'object' && error && 'response' in error)
@@ -77,10 +78,10 @@ export const useAuthStore = create<AuthState>()(
         toast.success('Logged out successfully');
       },
 
-      verifyEmail: async (email: string, token: string) => {
+      verifyEmail: async (payload: { email?: string; user_id?: string; token: string }) => {
         set({ isLoading: true });
         try {
-          await authAPI.verifyEmail({ email, token });
+          await authAPI.verifyEmail(payload);
           set({ isLoading: false });
           toast.success('Email verified successfully!');
         } catch (error: unknown) {

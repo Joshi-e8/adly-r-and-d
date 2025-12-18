@@ -80,28 +80,40 @@ class OtpVerificationSerializer(serializers.Serializer):
 
 
 class EmailVerificationSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(required=False)
+    user_id = serializers.UUIDField(required=False)
     token = serializers.CharField(max_length=6)
-    
+
     def validate(self, attrs):
         email = attrs.get('email')
+        user_id = attrs.get('user_id')
         token = attrs.get('token')
-        
+
+        if not token:
+            raise serializers.ValidationError('Invalid token')
+
         try:
-            user = User.objects.get(email=email)
+            user = None
+            if user_id:
+                user = User.objects.get(id=user_id)
+            elif email:
+                user = User.objects.get(email=email)
+            else:
+                raise serializers.ValidationError('Invalid token')
+
             otp = OTPToken.objects.get(
                 user=user,
                 token=token,
                 purpose='verification'
             )
-            
+
             if not otp.is_valid():
                 raise serializers.ValidationError('Token expired or already used')
-            
+
             attrs['user'] = user
             attrs['otp'] = otp
             return attrs
-            
+
         except (User.DoesNotExist, OTPToken.DoesNotExist):
             raise serializers.ValidationError('Invalid token')
 

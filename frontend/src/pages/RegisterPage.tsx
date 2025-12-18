@@ -11,8 +11,8 @@ export const RegisterPage: React.FC = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handleRegisterSuccess = () => {
-    navigate('/verify-email');
+  const handleRegisterSuccess = (email: string, userId?: string, otp?: string) => {
+    navigate('/verify-email', { state: { email, user_id: userId, token: otp } });
   };
 
   return (

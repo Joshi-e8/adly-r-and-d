@@ -5,6 +5,7 @@ import io
 import base64
 import secrets
 from datetime import timedelta
+from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status, viewsets, permissions
@@ -46,10 +47,12 @@ class AuthenticationView(viewsets.ModelViewSet):
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
+                otp_obj = OTPToken.objects.filter(user=user, purpose='verification', used_at__isnull=True).order_by('-created_at').first()
                 response.update({
                     'result': 'success',
                     'message': _('Registration successful. Please check your email for verification.'),
-                    'user_id': str(user.id)
+                    'user_id': str(user.id),
+                    **({'otp': otp_obj.token} if settings.DEBUG and otp_obj else {})
                 })
             else:
                 response.update({

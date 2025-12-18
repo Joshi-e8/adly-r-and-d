@@ -11,6 +11,7 @@ import { AdAccountsPage } from '@/pages/AdAccountsPage';
 import { MetaAdsUploadPage } from '@/pages/MetaAdsUploadPage';
 import { WorkspacesPage } from '@/pages/WorkspacesPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { VerifyEmailPage } from '@/pages/VerifyEmailPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +45,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/verify-email" element={<VerifyEmailPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/content/:workspaceId" element={<ProtectedRoute><ContentCreationWrapper /></ProtectedRoute>} />
             <Route path="/ad-accounts/:workspaceId?" element={<ProtectedRoute><AdAccountsPage /></ProtectedRoute>} />

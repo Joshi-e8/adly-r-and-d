@@ -47,9 +47,9 @@ api.interceptors.response.use(
 );
 
 export const authAPI = {
-  register: (data: RegisterRequest) => api.post<{ message: string; user_id: string }>('/auth/register/', data),
+  register: (data: RegisterRequest) => api.post<{ message: string; user_id: string; otp?: string }>('/auth/register/', data),
   login: (data: LoginRequest) => api.post<AuthResponse>('/auth/login/', data),
-  verifyEmail: (data: { email: string; token: string }) => api.post<{ message: string }>('/auth/verify-email/', data),
+  verifyEmail: (data: { token: string; email?: string; user_id?: string }) => api.post<{ message: string }>('/auth/verify-email/', data),
   getProfile: () => api.get<User>('/auth/profile/'),
   updateProfile: (data: Partial<User>) => api.patch<User>('/auth/profile/', data),
   get2FAQRCode: () => api.get<{ qr_code: string; secret: string; is_enabled: boolean }>('/auth/2fa/qr-code/'),
